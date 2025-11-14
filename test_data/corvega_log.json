@@ -1,0 +1,225 @@
+{
+  "alerts": [
+
+    {
+      "rule": {
+        "id": 200100,
+        "level": 13,
+        "description": "S7COMM: Unauthorized write attempts to Siemens PLC DB + checksum mismatch",
+        "groups": ["industrial", "plc", "s7comm", "high"]
+      },
+      "agent": {
+        "id": "agent-PLANT-01",
+        "name": "plc-scan-01",
+        "ip": "10.0.50.34",
+        "os": "Industrial-Inspector-Linux"
+      },
+      "manager": {"name": "wazuh-manager-01"},
+      "id": "WZ-200100-0001",
+      "full_log": "2025-09-23T08:12:03Z S7COMM session 10.0.50.34:102 -> PLC(10.0.100.11) DB100 write attempt; TSAP mismatch; checksum invalid; tag 'Line1_Enable' toggled rapid.",
+      "timestamp": "2025-09-23T08:12:03Z",
+      "location": "/var/log/industrial/sniffer-s7.log",
+      "mitre": ["T0850","TA0040"],
+      "tags": ["s7comm","siemens","unauthorized-write","integrity","plc"]
+    },
+
+    {
+      "rule": {
+        "id": 200200,
+        "level": 14,
+        "description": "MODBUS write from non-OT host to PLC gateway; suspicious register values",
+        "groups": ["industrial","modbus","critical"]
+      },
+      "agent": {
+        "id": "agent-WIN-OLD-01",
+        "name": "win-depr-01",
+        "ip": "10.0.100.22",
+        "os": "Windows Server 2008 R2 (deprecated)"
+      },
+      "manager": {"name": "wazuh-manager-01"},
+      "id": "WZ-200200-0002",
+      "full_log": "2025-09-23T08:12:07Z Modbus/TCP from 10.0.100.22:502 -> PLCGW(10.0.50.11). Function=16 (Write multiple registers). Values non-numeric pattern; destination registers map to conveyor speed and safety interlock.",
+      "timestamp": "2025-09-23T08:12:07Z",
+      "location": "/var/log/industrial/modbus-sniffer.log",
+      "mitre": ["T0839","TA0040"],
+      "tags": ["modbus","deprecated-windows","plc-gateway","suspicious-write"]
+    },
+
+    {
+      "rule": {
+        "id": 300100,
+        "level": 12,
+        "description": "OPC UA Server: Unexpected session creation from non-engineering client",
+        "groups": ["opcua","server","medium"]
+      },
+      "agent": {
+        "id": "agent-OPC-01",
+        "name": "kepware-01",
+        "ip": "10.0.50.20",
+        "os": "Windows 2016 (OPC-UA)"
+      },
+      "manager": {"name": "wazuh-manager-01"},
+      "id": "WZ-300100-0003",
+      "full_log": "2025-09-23T08:12:09Z OPC-UA session request from 10.0.60.77 (win-embedded-03) to OPC-UA server kepware-01. UserAgent: 'unknown-client/0.1'. Requested nodes: ns=2;i=4001..4016 (control tags).",
+      "timestamp": "2025-09-23T08:12:09Z",
+      "location": "/var/log/opcua/kepware_access.log",
+      "mitre": ["T0843","TA0001"],
+      "tags": ["opcua","kepware","session","unauthorized-client"]
+    },
+
+    {
+      "rule": {
+        "id": 400100,
+        "level": 14,
+        "description": "FANUC Robot controller abnormal motion command and remote file transfer",
+        "groups": ["robotics","fanuc","critical"]
+      },
+      "agent": {
+        "id": "agent-ROBOT-01",
+        "name": "fanuc-rj3ib-01",
+        "ip": "10.0.50.50",
+        "os": "FANUC_RJ3iB"
+      },
+      "manager": {"name": "wazuh-manager-01"},
+      "id": "WZ-400100-0004",
+      "full_log": "2025-09-23T08:12:10Z FANUC controller 10.0.50.50 received external FTP push from 10.0.100.22 -> uploaded 'job_override.dat'. Subsequent rapid servo enable/disable commands observed, unusual axis command sequence.",
+      "timestamp": "2025-09-23T08:12:10Z",
+      "location": "/var/log/robots/fanuc_controller.log",
+      "mitre": ["T0840","TA0040"],
+      "tags": ["fanuc","robotics","remote-file","motion-anomaly","safety-impact"]
+    },
+
+    {
+      "rule": {
+        "id": 400200,
+        "level": 12,
+        "description": "Mitsubishi MELSEC: read/write to safety-related registers from non-MELSEC client",
+        "groups": ["plc","mitsubishi","high"]
+      },
+      "agent": {
+        "id": "agent-PLANT-02",
+        "name": "mitsu-io-01",
+        "ip": "10.0.50.60",
+        "os": "MELSEC-Q"
+      },
+      "manager": {"name": "wazuh-manager-01"},
+      "id": "WZ-400200-0005",
+      "full_log": "2025-09-23T08:12:12Z MELSEC-Q PLC (10.0.50.60) saw MAINT_CLIENT 10.0.100.22 perform write to DM4000-DM4010 (safety interlock table). Unauthenticated session token and non-standard command header.",
+      "timestamp": "2025-09-23T08:12:12Z",
+      "location": "/var/log/industrial/mitsubishi-sniffer.log",
+      "mitre": ["T0850","TA0040"],
+      "tags": ["mitsubishi","melsec","unauthorized-write","safety"]
+    },
+
+    {
+      "rule": {
+        "id": 500100,
+        "level": 11,
+        "description": "Windows: New suspicious service installed on deprecated host",
+        "groups": ["windows","persistence","deprecated-win"]
+      },
+      "agent": {
+        "id": "agent-WIN-OLD-02",
+        "name": "win-depr-02",
+        "ip": "10.0.100.23",
+        "os": "Windows Server 2008 R2 (deprecated)"
+      },
+      "manager": {"name": "wazuh-manager-01"},
+      "id": "WZ-500100-0006",
+      "full_log": "2025-09-23T08:12:21Z Service install detected: 'AutoPatchSvc' -> C:\\Windows\\Temp\\autopatch.exe; created by SYSTEM; binary hash unknown; not in approved whitelist.",
+      "timestamp": "2025-09-23T08:12:21Z",
+      "location": "C:\\Windows\\System32\\winevt\\Logs\\System.evtx",
+      "mitre": ["T1543","TA0003"],
+      "tags": ["windows","persistence","service-install","deprecated"]
+    },
+
+    {
+      "rule": {
+        "id": 600100,
+        "level": 13,
+        "description": "Outbound DNS tunneling pattern from workstation and embedded host",
+        "groups": ["network","dns","high"]
+      },
+      "agent": {
+        "id": "agent-FW-01",
+        "name": "firewall-01",
+        "ip": "10.0.1.1",
+        "os": "pfSense"
+      },
+      "manager": {"name": "wazuh-manager-01"},
+      "id": "WZ-600100-0007",
+      "full_log": "2025-09-23T08:12:09Z DNS queries: 10.0.100.22 and 10.0.60.77 -> many-long-subdomain.exfil-chan.example (high entropy subdomains; >120 queries/min combined)",
+      "timestamp": "2025-09-23T08:12:09Z",
+      "location": "/var/log/pf/firewall.log",
+      "mitre": ["T1071.004","TA0011"],
+      "tags": ["dns-tunnel","exfil","network","suspicious-domain"]
+    },
+
+    {
+      "rule": {
+        "id": 700100,
+        "level": 12,
+        "description": "Historian (Ignition) client: unexpected DB export initiated",
+        "groups": ["historian","data-exfil","medium"]
+      },
+      "agent": {
+        "id": "agent-HIST-01",
+        "name": "historian-ign-01",
+        "ip": "10.0.50.30",
+        "os": "Linux-CentOS"
+      },
+      "manager": {"name": "wazuh-manager-01"},
+      "id": "WZ-700100-0008",
+      "full_log": "2025-09-23T08:12:15Z Ignition historian export started by user 'svc_replica' from 10.0.100.22; export file size 1.2GB; destination path: \\\\10.0.60.77\\exports\\hist_20250923.tar.gz",
+      "timestamp": "2025-09-23T08:12:15Z",
+      "location": "/var/log/ignition/historian.log",
+      "mitre": ["T1041","TA0010"],
+      "tags": ["historian","data-export","opcua-client","exfil"]
+    },
+
+    {
+      "rule": {
+        "id": 800100,
+        "level": 9,
+        "description": "Linux jump-host: suspicious SSH session and remote command execution",
+        "groups": ["linux","jump-host","lateral"]
+      },
+      "agent": {
+        "id": "agent-LNX-01",
+        "name": "eng-jumphost-01",
+        "ip": "10.0.1.50",
+        "os": "Ubuntu 20.04"
+      },
+      "manager": {"name": "wazuh-manager-01"},
+      "id": "WZ-800100-0009",
+      "full_log": "2025-09-23T08:12:02Z sshd: Accepted publickey for 'svc_maint' from 10.0.100.22; subsequent sudo -n commands to scp files to 10.0.50.50 (fanuc controller).",
+      "timestamp": "2025-09-23T08:12:02Z",
+      "location": "/var/log/auth.log",
+      "mitre": ["T1021.004","TA0008"],
+      "tags": ["ssh","jump-host","lateral-movement","eng-workstation"]
+    },
+
+    {
+      "rule": {
+        "id": 900100,
+        "level": 12,
+        "description": "EDR: wmiprvse.exe spawned outbound TLS to unknown IP from embedded device",
+        "groups": ["edr","windows-embedded","network"]
+      },
+      "agent": {
+        "id": "agent-WIN-EMB-03",
+        "name": "win-embedded-03",
+        "ip": "10.0.60.77",
+        "os": "Windows Embedded POSReady"
+      },
+      "manager": {"name": "wazuh-manager-01"},
+      "id": "WZ-900100-0010",
+      "full_log": "2025-09-23T08:12:11Z Process C:\\Windows\\SysWOW64\\wbem\\wmiprvse.exe established TLS connection to 185.62.101.14:443; certificate subject mismatch and external IP flagged in threat intel.",
+      "timestamp": "2025-09-23T08:12:11Z",
+      "location": "C:\\ProgramData\\EDR\\alerts.log",
+      "mitre": ["T1071.001","TA0011"],
+      "tags": ["edr","embedded","external-conn","c2"]
+    }
+
+  ]
+}
