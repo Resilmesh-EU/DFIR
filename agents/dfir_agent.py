@@ -112,31 +112,41 @@ def create_dfir_agent() -> Agent:
     print(f"🤖 Configuring DFIR agent with model: {model_name}")
     
     # Create model client based on configuration
+    # Configure timeouts (very high values to avoid timeouts)
+    ollama_timeout = float(os.getenv("OLLAMA_API_TIMEOUT", "1800.0"))  # 30 minutos por defecto
+    openai_timeout = float(os.getenv("OPENAI_API_TIMEOUT", "600.0"))   # 10 minutos por defecto
+    
     if model_name.lower() == "ollama":
         # Use Ollama local instance
         ollama_base_url = os.getenv("OLLAMA_API_BASE", "http://localhost:11434/v1")
         ollama_model = os.getenv("OLLAMA_MODEL", "llama3.2:1b")
         print(f"✅ Using Ollama configuration: {ollama_base_url} with model {ollama_model}")
+        print(f"⏱️  API Timeout: {ollama_timeout}s ({ollama_timeout/60:.1f} minutes)")
         openai_client = AsyncOpenAI(
             base_url=ollama_base_url,
-            api_key=os.getenv("OLLAMA_API_KEY", "ollama")
+            api_key=os.getenv("OLLAMA_API_KEY", "ollama"),
+            timeout=ollama_timeout
         )
         # Override model name to use the Ollama model
         model_name = ollama_model
     elif "alias" in model_name.lower():
         print("✅ Using Alias model configuration")
         print(f"🔍 ALIAS_API_KEY configured: {'✅' if os.getenv('ALIAS_API_KEY') else '❌'}")
-        openai_client = AsyncOpenAI()  # CAI handles Alias routing automatically
+        print(f"⏱️  API Timeout: {openai_timeout}s ({openai_timeout/60:.1f} minutes)")
+        openai_client = AsyncOpenAI(
+            timeout=openai_timeout
+        )  # CAI handles Alias routing automatically
     else:
         print("✅ Using standard OpenAI/external API configuration")
+        print(f"⏱️  API Timeout: {openai_timeout}s ({openai_timeout/60:.1f} minutes)")
         # Support custom API base URL for external endpoints
         api_base = os.getenv("OPENAI_API_BASE")
         api_key = os.getenv("OPENAI_API_KEY") or os.getenv("ALIAS_API_KEY")
         if api_base:
             print(f"   Using custom API base: {api_base}")
-            openai_client = AsyncOpenAI(base_url=api_base, api_key=api_key)
+            openai_client = AsyncOpenAI(base_url=api_base, api_key=api_key, timeout=openai_timeout)
         else:
-            openai_client = AsyncOpenAI(api_key=api_key)
+            openai_client = AsyncOpenAI(api_key=api_key, timeout=openai_timeout)
     
     # Create the agent
     dfir_agent = Agent(

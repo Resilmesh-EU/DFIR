@@ -32,6 +32,9 @@ COPY . /app/
 # Create necessary directories
 RUN mkdir -p /app/logs /app/dfir_reports /app/test_data
 
+# Make start_frontend.sh executable
+RUN chmod +x /app/start_frontend.sh 2>/dev/null || true
+
 # Set environment variables
 ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
