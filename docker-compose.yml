@@ -59,6 +59,8 @@ services:
       - GOOGLE_SEARCH_CX=${GOOGLE_SEARCH_CX:-}
     restart: unless-stopped
     command: ["bash", "/app/start_frontend.sh"]
+    networks:
+      - resilmesh_network
 
 # volumes:
 #   ollama_data:
