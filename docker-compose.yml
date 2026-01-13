@@ -17,11 +17,11 @@ services:
   #   networks:
   #     - dfir_network
 
-  cai-framework:
+  resilmesh_tap_dfir_cai_framework:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: cai-dfir-container
+    container_name: resilmesh_tap_dfir_cai_framework
     ports:
       - "5005:5000"
     # depends_on:

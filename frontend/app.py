@@ -950,7 +950,7 @@ if __name__ == '__main__':
             else:
                 if attempt == max_attempts - 1:
                     print(f"❌ Could not free port {port} after {max_attempts} attempts")
-                    print(f"💡 Try manually: docker exec cai-dfir-container pkill -9 -f 'python.*app.py'")
+                    print(f"💡 Try manually: docker exec resilmesh_tap_dfir_cai_framework pkill -9 -f 'python.*app.py'")
                     import sys
                     sys.exit(1)
         else:
