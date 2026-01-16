@@ -76,7 +76,7 @@ services:
     # ... rest of config
 ```
 
-2. **Uncomment dependencies** in `resilmesh_tap_dfir_cai_framework` service:
+2. **Uncomment dependencies** in `resilmesh-tap-dfir-cai-framework` service:
 ```yaml
 depends_on:
   ollama:
@@ -206,7 +206,7 @@ docker-compose up -d --build
 ### Frontend not accessible
 - Check container is running: `docker ps`
 - Verify port 5000 is not in use
-- Check logs: `docker logs resilmesh_tap_dfir_cai_framework`
+- Check logs: `docker logs resilmesh-tap-dfir-cai-framework`
 
 ## License
 

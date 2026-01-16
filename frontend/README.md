@@ -16,7 +16,7 @@ Interfaz web simple y estética para el sistema de análisis DFIR.
 
 ```bash
 # Entrar al contenedor
-docker exec -it resilmesh_tap_dfir_cai_framework bash
+docker exec -it resilmesh-tap-dfir-cai-framework bash
 
 # Iniciar el frontend
 cd /app/frontend
@@ -26,7 +26,7 @@ python app.py
 ### O ejecutar en segundo plano:
 
 ```bash
-docker exec -d resilmesh_tap_dfir_cai_framework bash -c "cd /app/frontend && python app.py"
+docker exec -d resilmesh-tap-dfir-cai-framework bash -c "cd /app/frontend && python app.py"
 ```
 
 ## Acceder a la interfaz
